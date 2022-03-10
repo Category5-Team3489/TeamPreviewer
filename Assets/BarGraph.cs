@@ -23,7 +23,7 @@ public class BarGraph : MonoBehaviour
             RectTransform bar = bars[i];
             bar.anchorMin = new Vector2(i * width, 0);
             bar.anchorMax = new Vector2((i * width) + width, 1);
-            bar.localScale = new Vector3((1f / (amount + 1)) * 1.1f, bar.localScale.y, bar.localScale.z);
+            bar.localScale = new Vector3((1f / (amount + 1)) * 1.1f, bar.localScale.y, bar.localScale.z); 
         }
         return bars;
     }
