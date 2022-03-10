@@ -6,6 +6,16 @@ public class GameManager : MonoBehaviour
 {
     public BarGraph barGraph;
 
+    // Bar graphs
+
+    // For multiple choice, % of answer
+    // Horizontal bar graph
+
+    // For numbers:
+    // Vertical bar graph of numbers
+    // Mean of all matches
+    // Mean of past 5 matches
+
     private void Start()
     {
         List<RectTransform> bars = barGraph.InitBars(100);
