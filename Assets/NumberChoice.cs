@@ -14,7 +14,7 @@ public class NumberChoice : MonoBehaviour
     public Text totalMeanText;
     public Text past5MeanText;
 
-    private List<int> scores = new List<int>()
+    private List<int> scores = new List<int>();
     private List<RectTransform> bars;
 
     public void Start()
