@@ -11,7 +11,7 @@ public class NumberChoice : MonoBehaviour
     // Vertical bar graph of numbers
     // Mean of all matches
     // Mean of past 5 matches
-    public BarGraph barGraph;
+    public BarGraph barGraph;                                                                                                                           
     public Text totalMeanText;
     public Text past5MeanText;
 
@@ -34,7 +34,7 @@ public class NumberChoice : MonoBehaviour
         scores.AddRange(newScores);
 
         int maxScore = scores.Max();
-        totalMeanText.text = $"All, Max: {maxScore}";
+        totalMeanText.text = $"Total:{scores.Count}, Max: {maxScore}, Avg: {scores.Average()}";
 
         bars = barGraph.InitBars(scores.Count);
         for (int i = 0; i < bars.Count; i++)
@@ -44,6 +44,6 @@ public class NumberChoice : MonoBehaviour
 
         List<int> last5 = new List<int>(scores.Skip(Math.Max(0, scores.Count() - 5)));
         int last5MaxScore = last5.Max();
-        past5MeanText.text = $"Past 5, Max: {last5MaxScore}";
+        past5MeanText.text = $"Past 5, Max: {last5MaxScore}, Avg: {last5.Average()}";
     }
 }
