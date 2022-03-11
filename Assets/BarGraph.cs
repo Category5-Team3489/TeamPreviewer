@@ -11,6 +11,7 @@ public class BarGraph : MonoBehaviour
     public List<RectTransform> InitBars(int amount)
     {
         bars.ForEach(bar => Destroy(bar));
+        bars.Clear();
         for (int i = 0; i < amount; i++)
         {
             bars.Add(Instantiate(barPrefab, transform));
