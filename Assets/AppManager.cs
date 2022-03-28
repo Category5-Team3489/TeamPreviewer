@@ -2,12 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BarChart : MonoBehaviour
+public class AppManager : MonoBehaviour
 {
-    public RectTransform chart;
-    public RectTransform barPrefab;
-
-
     // Start is called before the first frame update
     void Start()
     {
