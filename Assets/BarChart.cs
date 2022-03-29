@@ -32,7 +32,7 @@ public class BarChart : MonoBehaviour
         for (int i = 0; i < amount; i++)
         {
             RectTransform bar = ReserveBar();
-            SetBarAnchors(bar, i, width, 1f);
+            SetBarAnchors(bar, i, width, 0f);
             bars.Add(bar);
         }
         return bars;
