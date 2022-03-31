@@ -29,6 +29,47 @@ public class DataManager
         }
     }
 
+    public bool TryLoadRobotPicture(int teamNumber, out Texture2D robotPicture)
+    {
+        string jpg = robotPicturesPath + $"{teamNumber}.jpg";
+        if (File.Exists(jpg))
+        {
+            robotPicture = LoadTexture(jpg);
+            return true;
+        }
+        string jpeg = robotPicturesPath + $"{teamNumber}.jpeg";
+        if (File.Exists(jpeg))
+        {
+            robotPicture = LoadTexture(jpeg);
+            return true;
+        }
+        string png = robotPicturesPath + $"{teamNumber}.png";
+        if (File.Exists(png))
+        {
+            robotPicture = LoadTexture(png);
+            return true;
+        }
+        return false;
+    }
+
+    private static Texture2D LoadTexture(string path)
+    {
+        byte[] textureData = File.ReadAllBytes(path);
+        Texture2D texture = new Texture2D(2, 2);
+        texture.LoadImage(textureData);
+        return texture;
+    }
+
+    public bool TeamNumberExists(int teamNumber)
+    {
+        foreach (ExportRowData exportRow in export)
+        {
+            if (exportRow.teamNumber == teamNumber)
+                return true;
+        }
+        return false;
+    }
+
     public List<ExportRowData> GetTeamExports(int teamNumber)
     {
         List<ExportRowData> teamExportRowData = new List<ExportRowData>();

@@ -15,6 +15,8 @@ public class AppManager : MonoBehaviour
     public DataManager data;
 
     public TeamPanel teamPanel1;
+    public TeamPanel teamPanel2;
+    public TeamPanel teamPanel3;
 
     public bool isBlueAlliance = false;
 

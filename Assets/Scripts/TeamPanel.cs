@@ -10,6 +10,10 @@ public class TeamPanel : MonoBehaviour
 
     [SerializeField] private RawImage robotPicture;
 
+    [SerializeField] private Text teamNumberText;
+
+    [SerializeField] private Text teamNumberInputField;
+
     [SerializeField] private AnswerChart aq1Chart;
     [SerializeField] private AnswerChart aq2Chart;
     [SerializeField] private AnswerChart tq3Chart;
@@ -23,6 +27,18 @@ public class TeamPanel : MonoBehaviour
     [SerializeField] private BarChart eq2Chart;
 
     private List<ExportRowData> exportRows;
+
+    private void Update()
+    {
+        if (!Input.GetKeyDown(KeyCode.Enter))
+            return;
+
+        int.TryParse(teamNumberInputField.text, out int teamNumber);
+        if (!app.data.TeamNumberExists(teamNumber))
+            return;
+    }
+
+    
 
     public void SetTheme(bool isBlueAlliance)
     {
@@ -42,6 +58,13 @@ public class TeamPanel : MonoBehaviour
 
     public void Load(int teamNumber)
     {
+        teamNumberText.text = $"Team {teamNumber}";
+
+        if (app.data.TryLoadRobotPicture(teamNumber, out Texture2D texture))
+            robotPicture.texture = texture;
+        else
+            robotPicture.texture = null;
+
         exportRows = app.data.GetTeamExports(teamNumber);
 
         int rowCount = exportRows.Count;
