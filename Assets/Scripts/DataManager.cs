@@ -52,6 +52,11 @@ public class DataManager
         return false;
     }
 
+    public string GetPitScoutingData(int teamNumber)
+    {
+        return $"{teamNumber}";
+    }
+
     private static Texture2D LoadTexture(string path)
     {
         byte[] textureData = File.ReadAllBytes(path);

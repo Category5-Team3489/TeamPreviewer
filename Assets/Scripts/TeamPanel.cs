@@ -14,6 +14,9 @@ public class TeamPanel : MonoBehaviour
 
     [SerializeField] private Text teamNumberInputField;
 
+    [SerializeField] private GameObject pitScoutingPanel;
+    [SerializeField] private Text pitScoutingText;
+
     [SerializeField] private AnswerChart aq1Chart;
     [SerializeField] private AnswerChart aq2Chart;
     [SerializeField] private AnswerChart tq3Chart;
@@ -28,6 +31,11 @@ public class TeamPanel : MonoBehaviour
 
     private List<ExportRowData> exportRows;
 
+    public int blueTeamNumber = 0;
+    public bool bluePitScoutingShown = false;
+    public int redTeamNumber = 0;
+    public bool redPitScoutingShown = false;
+
     private void Update()
     {
         if (!Input.GetKeyDown(KeyCode.Enter))
@@ -36,9 +44,25 @@ public class TeamPanel : MonoBehaviour
         int.TryParse(teamNumberInputField.text, out int teamNumber);
         if (!app.data.TeamNumberExists(teamNumber))
             return;
+
+        SetPitScoutingPanel(false);
+
+        Load(teamNumber);
     }
 
-    
+    public void TogglePitScouting()
+    {
+        if (app.isBlueAlliance)
+        {
+            bluePitScoutingShown != bluePitScoutingShown;
+            SetPitScoutingPanel(bluePitScoutingShown);
+        }
+        else
+        {
+            redPitScoutingShown != redPitScoutingShown;
+            SetPitScoutingPanel(redPitScoutingShown);
+        }
+    }
 
     public void SetTheme(bool isBlueAlliance)
     {
@@ -58,6 +82,11 @@ public class TeamPanel : MonoBehaviour
 
     public void Load(int teamNumber)
     {
+        if (app.isBlueAlliance)
+            blueTeamNumber = teamNumber;
+        else
+            redTeamNumber = teamNumber;
+
         teamNumberText.text = $"Team {teamNumber}";
 
         if (app.data.TryLoadRobotPicture(teamNumber, out Texture2D texture))
@@ -103,6 +132,20 @@ public class TeamPanel : MonoBehaviour
             tq1Chart.SetBar(i, row.tq1);
             tq2Chart.SetBar(i, row.tq2);
             eq2Chart.SetBar(i, row.eq2);
+        }
+    }
+
+    private void SetPitScoutingPanel(bool isShown)
+    {
+        int teamNumber = app.isBlueAlliance ? blueTeamNumber : redTeamNumber;
+        pitScoutingPanel.SetActive(isShown);
+        if (isShown)
+        {
+            pitScoutingText.text = app.data.GetPitScoutingData(teamNumber);
+        }
+        else
+        {
+            pitScoutingText.text = "";
         }
     }
 
