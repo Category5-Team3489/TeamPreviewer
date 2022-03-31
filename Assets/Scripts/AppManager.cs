@@ -20,6 +20,11 @@ public class AppManager : MonoBehaviour
 
     public bool isBlueAlliance = false;
 
+    public bool isAutoPlayEnabled = false;
+
+    private float autoPlayPeriod = 5;
+    private float timeToSwitchTeams = 5;
+
     private void Start()
     {
         SetTheme(isBlueAlliance);
@@ -34,17 +39,44 @@ public class AppManager : MonoBehaviour
 
     private void Update()
     {
-        
+        if (isAutoPlayEnabled)
+        {
+            timeToSwitchTeams -= Time.deltaTime;
+            if (timeToSwitchTeams <= 0)
+            {
+                timeToSwitchTeams += autoPlayPeriod;
+                SwitchTeams();
+            }
+        }
+        else
+        {
+            timeToSwitchTeams = 5;
+        }
+
+        if (!Input.GetKeyDown(KeyCode.Enter))
+            return;
+
+        float.TryParse(autoPlayPeriodInputField.text, out autoPlayPeriod);
+        if (autoPlayPeriod < 5)
+            autoPlayPeriod = 5;
+    }
+
+    private void SwitchTeams()
+    {
+        teamPanel1.Load(app.data.GetTeam());
+        teamPanel2.Load(app.data.GetTeam());
+        teamPanel3.Load(app.data.GetTeam());
     }
 
     public void AutoPlay()
     {
-
+        isAutoPlayEnabled != isAutoPlayEnabled;
     }
 
     public void SwitchAlliance()
     {
-
+        isBlueAlliance != isBlueAlliance;
+        SetTheme(isBlueAlliance);
     }
 
     public static string FloatToDisplayableString(float f)

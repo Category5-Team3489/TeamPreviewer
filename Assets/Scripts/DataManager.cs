@@ -13,6 +13,10 @@ public class DataManager
 
     private readonly List<ExportRowData> export = new List<ExportRowData>();
 
+    public readonly List<int> teams = new List<int>();
+
+    private int nextTeamIndex = 0;
+
     public void Load()
     {
         LoadExport();
@@ -21,12 +25,28 @@ public class DataManager
     public void LoadExport()
     {
         export.Clear();
+        teams.Clear();
         string[] data = File.ReadAllLines(exportPath);
         for (int i = 1; i < data.Length; i++)
         {
             ExportRowData exportRow = new ExportRowData(data[i]);
             export.Add(exportRow);
+            int teamNumber = exportRow.teamNumber;
+            if (!teams.Contains(teamNumber))
+                teams.Add(teamNumber);
         }
+        teams.Sort();
+    }
+
+    public int GetTeam()
+    {
+        if (teams.Count < 1)
+            return 0;
+        int team = teams[nextTeamIndex];
+        nextTeamIndex++;
+        if (nextTeamIndex >= teams.Count)
+            nextTeamIndex = 0;
+        return team;
     }
 
     public bool TryLoadRobotPicture(int teamNumber, out Texture2D robotPicture)

@@ -66,6 +66,12 @@ public class TeamPanel : MonoBehaviour
 
     public void SetTheme(bool isBlueAlliance)
     {
+        int teamNumber = isBlueAlliance ? blueTeamNumber : redTeamNumber;
+        if (app.data.TeamNumberExists(teamNumber))
+        {
+            Load(teamNumber);
+        }
+
         Color color = isBlueAlliance ? Color.Lerp(Color.cyan, Color.blue, 0.25f) : Color.red;
         aq1Chart.SetLabelColor(color);
         aq2Chart.SetLabelColor(color);
@@ -82,10 +88,19 @@ public class TeamPanel : MonoBehaviour
 
     public void Load(int teamNumber)
     {
+        if (!app.data.TeamNumberExists(teamNumber))
+            return;
+
         if (app.isBlueAlliance)
+        {
             blueTeamNumber = teamNumber;
+            SetPitScoutingPanel(bluePitScoutingShown);
+        }
         else
+        {
             redTeamNumber = teamNumber;
+            SetPitScoutingPanel(redPitScoutingShown);
+        }
 
         teamNumberText.text = $"Team {teamNumber}";
 
