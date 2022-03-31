@@ -1,31 +1,23 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BarChart : MonoBehaviour
+public class Chart : MonoBehaviour
 {
     [SerializeField] private RectTransform chart;
     [SerializeField] private RectTransform barPrefab;
-    [SerializeField] private string title;
-
-    [SerializeField] private bool ignoreZeroAverage;
-
-    [SerializeField] private Text label;
-    [SerializeField] private List<Text> scale;
 
     private List<RectTransform> bars = new List<RectTransform>();
     private Stack<RectTransform> unusedBars = new Stack<RectTransform>();
 
-    private float[] barValues = new float[0];
-
-    private float scaleMax = 1;
+    public float ScaleMax { get; private set; } = 1;
+    public float[] BarValues { get; private set; } = new float[0];
 
     public void Init(int reserveBars, float scaleMax)
     {
         ReserveBars(reserveBars);
-        this.scaleMax = scaleMax;
-        InitChartScale();
+        ScaleMax = scaleMax;
     }
 
     public void SetBar(int index, float value)
@@ -33,12 +25,11 @@ public class BarChart : MonoBehaviour
         if (index < 0 || index >= bars.Count)
             return;
         float xScale = 1f / (bars.Count + 1);
-        float yScale = (value / scaleMax);
+        float yScale = (value / ScaleMax);
         if (float.IsNaN(yScale))
             yScale = 0;
         bars[index].localScale = new Vector2(xScale * 0.85f, 0.5f * yScale);
-        barValues[index] = value;
-        SetAverageText();
+        BarValues[index] = value;
     }
 
     public void SetBarColor(int index, Color color)
@@ -49,7 +40,7 @@ public class BarChart : MonoBehaviour
 
     private void ReserveBars(int amount)
     {
-        barValues = new float[amount];
+        BarValues = new float[amount];
         foreach (RectTransform bar in bars)
         {
             unusedBars.Push(bar);
@@ -82,45 +73,5 @@ public class BarChart : MonoBehaviour
     {
         bar.anchorMin = new Vector2(index * width, 0);
         bar.anchorMax = new Vector2((index * width) + width, 1);
-    }
-
-    private void InitChartScale()
-    {
-        scale[0].text = "0";
-        scale[1].text = FloatToDisplayableString(scaleMax * (1f / 4f));
-        scale[2].text = FloatToDisplayableString(scaleMax * (2f / 4f));
-        scale[3].text = FloatToDisplayableString(scaleMax * (3f / 4f));
-        scale[4].text = FloatToDisplayableString(scaleMax);
-    }
-
-    private static string FloatToDisplayableString(float f)
-    {
-        string raw = f.ToString() + "    ";
-        string str;
-        if (f > 0 && f < 999)
-            str = raw[..4].Trim();
-        else
-            str = raw[..3].Trim();
-        return str;
-    }
-
-    private void SetLabel(string subtext)
-    {
-        label.text = $"<b>{title}</b>\n" + subtext;
-    }
-
-    private void SetAverageText()
-    {
-        int elements = 0;
-        float average = 0;
-        foreach (float barValue in barValues)
-        {
-            if (ignoreZeroAverage && barValue == 0)
-                continue;
-            average += barValue;
-            elements++;
-        }
-        average /= elements;
-        SetLabel($"Match Avg: {FloatToDisplayableString(average)}");
     }
 }
