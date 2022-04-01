@@ -38,7 +38,7 @@ public class TeamPanel : MonoBehaviour
 
     private void Update()
     {
-        if (!Input.GetKeyDown(KeyCode.Enter))
+        if (!Input.GetKeyDown(KeyCode.Return))
             return;
 
         int.TryParse(teamNumberInputField.text, out int teamNumber);
@@ -54,12 +54,12 @@ public class TeamPanel : MonoBehaviour
     {
         if (app.isBlueAlliance)
         {
-            bluePitScoutingShown != bluePitScoutingShown;
+            bluePitScoutingShown = !bluePitScoutingShown;
             SetPitScoutingPanel(bluePitScoutingShown);
         }
         else
         {
-            redPitScoutingShown != redPitScoutingShown;
+            redPitScoutingShown = !redPitScoutingShown;
             SetPitScoutingPanel(redPitScoutingShown);
         }
     }

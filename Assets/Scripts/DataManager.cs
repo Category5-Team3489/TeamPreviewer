@@ -17,6 +17,8 @@ public class DataManager
 
     private int nextTeamIndex = 0;
 
+    private Dictionary<int, PitScoutData> pitScouting = new Dictionary<int, PitScoutData>();
+
     public void Load()
     {
         LoadExport();
@@ -51,6 +53,7 @@ public class DataManager
 
     public bool TryLoadRobotPicture(int teamNumber, out Texture2D robotPicture)
     {
+        robotPicture = null;
         string jpg = robotPicturesPath + $"{teamNumber}.jpg";
         if (File.Exists(jpg))
         {

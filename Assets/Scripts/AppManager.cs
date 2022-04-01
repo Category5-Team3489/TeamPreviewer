@@ -27,14 +27,10 @@ public class AppManager : MonoBehaviour
 
     private void Start()
     {
-        SetTheme(isBlueAlliance);
-
         data = new DataManager();
         data.Load();
 
-        teamPanel1.Load(3489);
-
-        teamPanel1.Load(343);
+        SetTheme(isBlueAlliance);
     }
 
     private void Update()
@@ -53,7 +49,7 @@ public class AppManager : MonoBehaviour
             timeToSwitchTeams = 5;
         }
 
-        if (!Input.GetKeyDown(KeyCode.Enter))
+        if (!Input.GetKeyDown(KeyCode.Return))
             return;
 
         float.TryParse(autoPlayPeriodInputField.text, out autoPlayPeriod);
@@ -63,19 +59,19 @@ public class AppManager : MonoBehaviour
 
     private void SwitchTeams()
     {
-        teamPanel1.Load(app.data.GetTeam());
-        teamPanel2.Load(app.data.GetTeam());
-        teamPanel3.Load(app.data.GetTeam());
+        teamPanel1.Load(data.GetTeam());
+        teamPanel2.Load(data.GetTeam());
+        teamPanel3.Load(data.GetTeam());
     }
 
     public void AutoPlay()
     {
-        isAutoPlayEnabled != isAutoPlayEnabled;
+        isAutoPlayEnabled = !isAutoPlayEnabled;
     }
 
     public void SwitchAlliance()
     {
-        isBlueAlliance != isBlueAlliance;
+        isBlueAlliance = !isBlueAlliance;
         SetTheme(isBlueAlliance);
     }
 
@@ -99,6 +95,8 @@ public class AppManager : MonoBehaviour
             background.sprite = redBackground;
         */
         teamPanel1.SetTheme(isBlueAlliance);
+        teamPanel2.SetTheme(isBlueAlliance);
+        teamPanel3.SetTheme(isBlueAlliance);
     }
 
 }
